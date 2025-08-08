@@ -1,12 +1,15 @@
-import { Controller, Post, Get, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Get, Body, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import { RegisterEntryDto } from '../application/dto/register-entry.dto';
 import { RegisterExitDto } from '../application/dto/register-exit.dto';
 import { RegisterEntryUseCase } from '../application/use-cases/register-entry.use-case';
 import { RegisterExitUseCase } from '../application/use-cases/register-exit.use-case';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/app/auth/infrastructure/guards/jwt-auth.guard';
+import { CurrentUser } from 'src/app/auth/infrastructure/decorators/current-user.decorator';
 
 @ApiTags('parking')
 @Controller('parking')
+@UseGuards(JwtAuthGuard)
 export class ParkingController {
   constructor(
     private readonly registerEntryUseCase: RegisterEntryUseCase,
@@ -19,8 +22,9 @@ export class ParkingController {
   @ApiBody({ type: RegisterEntryDto, description: 'Datos del vehículo (placa)' })
   @ApiResponse({ status: 201, description: 'Entrada registrada con éxito.' })
   @ApiResponse({ status: 400, description: 'Placa inválida o vehículo ya estacionado.' })
-  async registerEntry(@Body() dto: RegisterEntryDto) {
-    const record = await this.registerEntryUseCase.execute(dto.plate);
+  async registerEntry(@Body() dto: RegisterEntryDto, @CurrentUser() user: any) {
+    console.log("🚀 ~ file: parking.controller.ts:26 ~ user:", user)
+    const record = await this.registerEntryUseCase.execute(dto.plate, user.uuid);
     return {
       message: 'Entrada registrada',
       data: record,

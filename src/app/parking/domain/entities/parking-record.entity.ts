@@ -3,7 +3,8 @@ export class ParkingRecord {
     public id: string,
     public plate: string,
     public entryTime: Date,
-    public exitTime: Date | null = null
+    public exitTime: Date | null = null,
+    public readonly createdBy: string,
   ) {}
 
   // Método para registrar salida

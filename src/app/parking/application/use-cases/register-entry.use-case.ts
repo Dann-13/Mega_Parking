@@ -11,14 +11,14 @@ export class RegisterEntryUseCase {
     private readonly parkingRepo: ParkingRepository,
   ) {}
 
-  async execute(plate: string): Promise<ParkingRecord> {
-    const existing = await this.parkingRepo.findByPlate(plate);
-    if (existing && existing.isParked()) {
-      throw new Error(`El vehículo con placa ${plate} ya está estacionado.`);
-    }
-
-    const record = new ParkingRecord(uuidv4(), plate, new Date());
-    await this.parkingRepo.save(record);
-    return record;
+  async execute(plate: string, userId: string): Promise<ParkingRecord> {
+  const existing = await this.parkingRepo.findByPlate(plate);
+  if (existing && existing.isParked()) {
+    throw new Error(`El vehículo con placa ${plate} ya está estacionado.`);
   }
+
+  const record = new ParkingRecord(uuidv4(), plate, new Date(), null, userId);
+  await this.parkingRepo.save(record);
+  return record;
+}
 }

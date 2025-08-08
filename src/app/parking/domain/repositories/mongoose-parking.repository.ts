@@ -21,6 +21,7 @@ export class MongooseParkingRepository implements ParkingRepository {
         plate: record.plate,
         entryTime: record.entryTime,
         exitTime: record.exitTime,
+        createdBy: record.createdBy,
       }).exec();
     } else {
       const newRecord = new this.model({
@@ -28,6 +29,7 @@ export class MongooseParkingRepository implements ParkingRepository {
         plate: record.plate,
         entryTime: record.entryTime,
         exitTime: record.exitTime,
+        createdBy: record.createdBy,
       });
       await newRecord.save();
     }
@@ -41,20 +43,22 @@ export class MongooseParkingRepository implements ParkingRepository {
 
     if (!doc) return null;
 
-    return new ParkingRecord(doc._id.toString(), doc.plate, doc.entryTime, doc.exitTime);
+    return new ParkingRecord(doc._id.toString(), doc.plate, doc.entryTime, doc.exitTime, doc.createdBy);
   }
 
   async findById(id: string): Promise<ParkingRecord | null> {
     const doc = await this.model.findById(id).exec();
     if (!doc) return null;
 
-    return new ParkingRecord(doc._id.toString(), doc.plate, doc.entryTime, doc.exitTime);
+    return new ParkingRecord(doc._id.toString(), doc.plate, doc.entryTime, doc.exitTime, doc.createdBy);
+
   }
 
   async getAll(): Promise<ParkingRecord[]> {
     const docs = await this.model.find().exec();
     return docs.map(
-      (doc) => new ParkingRecord(doc._id.toString(), doc.plate, doc.entryTime, doc.exitTime)
+      (doc) => new ParkingRecord(doc._id.toString(), doc.plate, doc.entryTime, doc.exitTime, doc.createdBy)
+
     );
   }
 }

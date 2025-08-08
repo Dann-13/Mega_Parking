@@ -14,6 +14,10 @@ export class ParkingRecordDocument {
 
   @Prop({ type: Date, default: null })
   exitTime: Date | null;
+
+  @Prop({ required: true })
+  createdBy: string;
+
 }
 
 export type ParkingRecordDocumentType = HydratedDocument<ParkingRecordDocument>;
