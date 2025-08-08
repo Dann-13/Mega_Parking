@@ -13,8 +13,6 @@ export class MongooseParkingRepository implements ParkingRepository {
   ) { }
 
   async save(record: ParkingRecord): Promise<void> {
-    console.log("🚀 ~ file: mongoose-parking.repository.ts:16 ~ record:", record);
-
     // Busca usando el UUID, no _id
     const existing = await this.model.findOne({ uuid: record.id }).exec();
 

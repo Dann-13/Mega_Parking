@@ -6,7 +6,7 @@ export class ParkingRecordDocument {
   @Prop({ required: true, unique: true })
   uuid: string;
 
-  @Prop({ required: true, uppercase: true, match: /^[A-Z]{3}\d{3}$/ })
+  @Prop({ required: true, uppercase: true })
   plate: string;
 
   @Prop({ required: true, type: Date })

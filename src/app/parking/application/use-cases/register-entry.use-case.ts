@@ -18,7 +18,6 @@ export class RegisterEntryUseCase {
     }
 
     const record = new ParkingRecord(uuidv4(), plate, new Date());
-    console.log("🚀 ~ file: register-entry.use-case.ts:21 ~ record:", record)
     await this.parkingRepo.save(record);
     return record;
   }

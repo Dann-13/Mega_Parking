@@ -9,8 +9,8 @@ export class PlateDto {
   @IsString({ message: 'La placa debe ser un texto.' })
   @MinLength(6, { message: 'La placa debe tener al menos 6 caracteres.' })
   @MaxLength(7, { message: 'La placa no debe exceder 7 caracteres.' })
-  @Matches(/^[A-Z]{3}\d{3}$/, {
-    message: 'La placa debe tener formato: 3 letras mayúsculas seguidas de 3 números (ej: ABC123).',
+  @Matches(/^[A-Z0-9]{6,7}$/, {
+    message: 'La placa debe tener entre 6 y 7 caracteres alfanuméricos en mayúsculas.',
   })
   plate: string;
 }

@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { ValidationPipe } from '@nestjs/common';
+
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
@@ -28,6 +29,11 @@ async function bootstrap() {
   SwaggerModule.setup('api-docs', app, document, {
     // Puedes personalizar la interfaz
     customSiteTitle: 'API - Sistema de Parqueo',
+  });
+
+  app.enableCors({
+    origin: ['http://localhost:3001'],
+    credentials: true,
   });
 
   app.setGlobalPrefix('api');

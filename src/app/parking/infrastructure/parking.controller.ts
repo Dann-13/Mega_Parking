@@ -1,8 +1,8 @@
 import { Controller, Post, Get, Body, HttpCode, HttpStatus } from '@nestjs/common';
-import { RegisterEntryDto } from '../../application/dto/register-entry.dto';
-import { RegisterExitDto } from '../../application/dto/register-exit.dto';
-import { RegisterEntryUseCase } from '../../application/use-cases/register-entry.use-case';
-import { RegisterExitUseCase } from '../../application/use-cases/register-exit.use-case';
+import { RegisterEntryDto } from '../application/dto/register-entry.dto';
+import { RegisterExitDto } from '../application/dto/register-exit.dto';
+import { RegisterEntryUseCase } from '../application/use-cases/register-entry.use-case';
+import { RegisterExitUseCase } from '../application/use-cases/register-exit.use-case';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('parking')
