@@ -11,15 +11,18 @@ export class LoginUseCase {
     private readonly authService: AuthService,
   ) {}
 
-  async execute(email: string, password: string): Promise<{ token: string }> {
-  const user = await this.userRepo.findByEmail(email);
-  if (!user) throw new UnauthorizedException('Credenciales inválidas');
+  async execute(email: string, password: string): Promise<{ accessToken: string; refreshToken: string }> {
+    const user = await this.userRepo.findByEmail(email);
+    if (!user) throw new UnauthorizedException('Credenciales inválidas');
 
-  const isValid = await bcrypt.compare(password, user.password);
-  if (!isValid) throw new UnauthorizedException('Credenciales inválidas');
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) throw new UnauthorizedException('Credenciales inválidas');
 
-  const token = await this.authService.generateToken({ uuid: user.uuid, email: user.email });
-  return { token };
-}
+    const payload = { uuid: user.uuid, email: user.email };
 
+    const accessToken = await this.authService.generateToken(payload, '15m');
+    const refreshToken = await this.authService.generateToken(payload, '7d');
+
+    return { accessToken, refreshToken };
+  }
 }
